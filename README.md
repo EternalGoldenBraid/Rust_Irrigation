@@ -15,6 +15,7 @@ To build 'cargo build'. This should create an elf file `<name>.elf` in `target/a
 	<li> Arduino ports: https://www.arduino.cc/en/Reference/PortManipulation </li>
 	<li> Moisture sensor: https://www.sigmaelectronica.net/wp-content/uploads/2018/04/sen0193-humedad-de-suelos.pdf </li>
 	<li> Calibration: https://makersportal.com/blog/2020/5/26/capacitive-soil-moisture-calibration-with-arduino
+	<li> Display: Rust library https://docs.rs/ssd1306/0.5.1/ssd1306/, Datasheet: https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
 	<ul>
 	<li> Circuitry
 		<ul> 
