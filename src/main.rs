@@ -120,11 +120,24 @@ fn main() -> ! {
         if n >= THRESHOLD_MEASUREMENTS {
             avg = total/n;
             ufmt::uwriteln!(&mut serial, "Average is: {}", avg).void_unwrap();
+            ufmt::uwriteln!(&mut serial, "\r").void_unwrap(); //newline
             n = 0;
             total = 0;
             avg = 0
 
         }
         arduino_uno::delay_ms(DELAY);
+        
+        // Display testing
+        // SDA is connected to a4 and CLK to A5.
+
+        //let mut data = pins.a4.into_analog_input(&mut adc);
+        //let mut data: u8 = 0u8;
+        let data = arduino_uno::hal::port::portc::PC4<arduino_uno::hal::port::mode::Output>;
+        let clk = arduino_uno::hal::port::portc::PC5<arduino_uno::hal::port::mode::Output>;
+
+        // Chip select (active LOW).
+
+
     }
 }
