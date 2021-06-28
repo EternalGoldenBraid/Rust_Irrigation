@@ -86,6 +86,19 @@ fn main() -> ! {
     //ufmt::uwriteln!(&mut serial, "GND: {}\r", gnd).void_unwrap();
     
     let mut a0 = pins.a0.into_analog_input(&mut adc);
+    
+    // Display testing
+    // SDA is connected to a4 and CLK to A5.
+
+    //let mut data = pins.a4.into_analog_input(&mut adc);
+    //let mut data: u8 = 0u8;
+    let data = arduino_uno::hal::port::portc::PC4::<arduino_uno::hal::port::mode::Output>;
+    let clk = arduino_uno::hal::port::portc::PC5::<arduino_uno::hal::port::mode::Output>;
+
+    // Chip select (active LOW).
+
+    // Pump testing
+    let select = arduino_uno::hal::port::portc::PC1::<arduino_uno::hal::port::mode::Output>;
 
     let mut n = 0;
     let mut total = 0;
@@ -125,18 +138,12 @@ fn main() -> ! {
             total = 0;
             avg = 0
 
+            //select.set_high.void_unw
+
         }
         arduino_uno::delay_ms(DELAY);
         
-        // Display testing
-        // SDA is connected to a4 and CLK to A5.
-
-        //let mut data = pins.a4.into_analog_input(&mut adc);
-        //let mut data: u8 = 0u8;
-        let data = arduino_uno::hal::port::portc::PC4<arduino_uno::hal::port::mode::Output>;
-        let clk = arduino_uno::hal::port::portc::PC5<arduino_uno::hal::port::mode::Output>;
-
-        // Chip select (active LOW).
+        
 
 
     }
