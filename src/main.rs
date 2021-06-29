@@ -14,8 +14,6 @@ use panic_halt as _;
 // all trait methods available.  This is probably something that
 // should always be added.
 use arduino_uno::prelude::*;
-use arduino_uno::hal::port::portb::PB5;
-use arduino_uno::hal::port::mode::Output;
 use arduino_uno::adc;
 //use ufmt::{uwriteln};
 //use ufmt_float::uFmt_f32;
@@ -29,7 +27,8 @@ const DELAY: u16 = 1000u16;
 const WAIT_WATER: u16 = 1000u16; // 1 minute
 const DRY:   u16 = 464u16;
 const WET:   u16 = 210u16;
-const THRESHOLD_MEASUREMENTS: u16 = 10;
+const THRESHOLD_MEASUREMENTS: u16 = 10u16;
+const WATERING: u16 = 5000u16;
 
 // Define the entry-point for the application.  This can only be
 // done once in the entire dependency tree.
@@ -60,6 +59,8 @@ fn main() -> ! {
         // the ownership is moved by writing explicitely input, 
         // output is enforced at compile time,
         pins.d0,
+        // DDR (Data Direction Register) is a register which determines whether
+        // pins of a port are input or output pins.
         pins.d1.into_output(&mut pins.ddr),
 
         // other well known baud rates are possible (9600)
@@ -92,13 +93,19 @@ fn main() -> ! {
 
     //let mut data = pins.a4.into_analog_input(&mut adc);
     //let mut data: u8 = 0u8;
-    let data = arduino_uno::hal::port::portc::PC4::<arduino_uno::hal::port::mode::Output>;
-    let clk = arduino_uno::hal::port::portc::PC5::<arduino_uno::hal::port::mode::Output>;
+    //let data = arduino_uno::hal::port::portc::PC4::<arduino_uno::hal::port::mode::Output>;
+    //let clk = arduino_uno::hal::port::portc::PC5::<arduino_uno::hal::port::mode::Output>;
 
     // Chip select (active LOW).
 
     // Pump testing
-    let select = arduino_uno::hal::port::portc::PC1::<arduino_uno::hal::port::mode::Output>;
+    //let mut select =
+    //arduino_uno::hal::port::portc::PC1::<arduino_uno::hal::port::mode::Output>.into_output();
+    //let select: arduino_uno::hal::port::portc::PC1<arduino_uno::hal::port::mode::Output> = arduino_uno::hal::port::portc::PC1;
+    //let select: arduino_uno::hal::port::portc::PC1<arduino_uno::hal::port::mode::Floating> = arduino_uno::hal::port::portc::PC1;
+    //let select: arduino_uno::hal::port::portc::PC1<arduino_uno::hal::port::mode::Output>;
+    //select = select.into_output( &mut arduino_uno::hal::port::portc::DDR );
+    let mut select = pins.d2.into_output( &mut pins.ddr);
 
     let mut n = 0;
     let mut total = 0;
@@ -136,9 +143,11 @@ fn main() -> ! {
             ufmt::uwriteln!(&mut serial, "\r").void_unwrap(); //newline
             n = 0;
             total = 0;
-            avg = 0
+            avg = 0;
 
-            //select.set_high.void_unw
+            //select.set_high().void_unwrap();
+            //arduino_uno::delay_ms(WATERING);
+            //select.set_low().void_unwrap();
 
         }
         arduino_uno::delay_ms(DELAY);
